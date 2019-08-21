@@ -1,26 +1,63 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import { ApiPost } from './utilAjax.js'
+import AddContact from './components/AddContact.jsx'
+import EditContactForm from './components/editForm.jsx'
+import ContactList from './components/listContact.jsx'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor(props) {
+    super();
+    this.state = {
+      contact: [],
+      showAdd: true,
+      showEdit: false,
+      dataEdit: {}
+    };
+}
+  componentWillMount () {
+    this.getContact()
+  }
+  editData (data) {
+    if (this.state.showEdit === true){
+      this.setState({showEdit: false})
+    } 
+    this.setState({dataEdit: data, showAdd: false, showEdit: true})
+  }
+  resetVal () {
+    this.setState({showAdd: true, showEdit: false})
+  }
+  getContact () {
+    ApiPost('getContact').doRequest()
+     .on('done', res => {
+       this.setState({contact: res.body.data})
+     })
+  }
+  render() {
+    const dataContact = this.state.contact
+    const setContact = this.state.dataEdit
+    return (
+      <div className="App">
+        {this.state.showAdd ? <AddContact  getContact={this.getContact.bind(this)}/> : null}
+        {this.state.showEdit ?  <EditContactForm getContact={this.getContact.bind(this)} setContact={setContact} backValue={this.resetVal.bind(this)}/> : null}
+        <div><h2>List Contact</h2></div>
+        <table className="table-result">
+        <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Age</th>
+          <th>Photo Profile</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+            <ContactList contactEditData={this.editData.bind(this)} dataContact={dataContact} />
+        </tbody>
+        </table>
+      </div>
+    );
+  }
 }
 
 export default App;
