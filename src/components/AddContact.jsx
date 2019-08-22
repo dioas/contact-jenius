@@ -29,6 +29,9 @@ export default class AddContact extends React.Component {
     .on('done', () => {
       _this.props.getContact()
     })
+    .on('fail', (err) => {
+      alert(err.body.message)
+    })
     event.preventDefault();
   }
 
