@@ -11,7 +11,7 @@ export default class ContactList extends React.Component {
       <td>{number.firstName}</td>
       <td>{number.lastName}</td>
       <td>{number.age}</td>
-      <td><img src={number.photo}></img></td>
+      <td><img alt="profile" src={number.photo}></img></td>
       <td>
         <DeleteBtn idDelete={number.id}/>
         <EditContact contactEditId={this.contactEdit.bind(this)} idEdit={number.id} />

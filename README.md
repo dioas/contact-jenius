@@ -23,3 +23,7 @@ npm run test
 
 ### This project use React
 
+### Deploy web App
+
+for web deployment you can see [Here]( https://contact-jenius.dioas.now.sh/) or [zeit]( https://contact-jenius.dioas.now.sh/)
+

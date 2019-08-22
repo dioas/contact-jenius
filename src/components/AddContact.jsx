@@ -28,6 +28,12 @@ export default class AddContact extends React.Component {
     ApiPost('postContact').doRequest({body: {firstName: this.state.firstName, lastName: this.state.lastName, age: this.state.age, photo: this.state.photo}})
     .on('done', () => {
       _this.props.getContact()
+      this.setState({
+        firstName: '',
+        lastName: '',
+        age: '',
+        photo: ''
+      })
     })
     .on('fail', (err) => {
       alert(err.body.message)
